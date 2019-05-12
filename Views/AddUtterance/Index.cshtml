@@ -1,0 +1,50 @@
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<button type="button" id="btnPost">Add example test</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script>
+$(function() {
+    $("#btnPost").click(function () {
+        var utterance = new Object();
+      utterance =   {
+          text: 'go to bristol today',
+      intentName: 'BookFlight',
+          entityLabels: [{
+              entityName: 'Location::LocationTo',
+              startCharIndex: 6,
+              endCharIndex: 12
+          }]
+    };
+var jsonText = JSON.stringify(utterance);
+        if (jsonText != null) {
+            console.log(jsonText);
+            $.ajax({
+                type: "POST",
+                url: "/AddUtterance/GetExampleData?jsonText=" + jsonText,
+                data: jsonText,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    if (response != null) {
+                        alert("Successful" + response);
+                    } else {
+                        alert("Something went wrong"  + response);
+                    }
+                },
+                failure: function(response) {
+                    alert("failure" + response);
+                },
+                error: function (response) {
+                    alert("error" + response);
+                }
+            });
+        }
+    });
+});
+</script>
+
